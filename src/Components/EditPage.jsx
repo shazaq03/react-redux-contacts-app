@@ -1,24 +1,41 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../StoreandSlices/ContactSlice';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector} from 'react-redux';
+import { editContact } from '../StoreandSlices/ContactSlice';
+import { useNavigate,useParams } from 'react-router-dom';
 
-function AddPage() {
+function EditPage() {
 
-    
     const [nameState, setnameState] = useState("");
     const [emailState, setemailState] = useState("");
     const [phoneState, setphoneState] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const params = useParams();
+    const contacts = useSelector((state) => state.contacts.contacts);
+    let editedContact;
+
+    useEffect(() => {
+        contacts.forEach(contact => {
+            if(contact.id === params.id){
+                editedContact = contact;
+            }
+        });
+        setnameState(editedContact.name);
+        setemailState(editedContact.email);
+        setphoneState(editedContact.phoneNumber);
+      
+    }, [])
     
+
     function handleSubmit(e){
         e.preventDefault();
         if(nameState === ""){return;}
-        dispatch(addContact({name: nameState.toString(), email: emailState.toString(), phoneNumber: phoneState}));
-        setemailState("");
-        setnameState("");
-        setphoneState("");
+        dispatch(editContact({edit:{
+            id: params.id,
+            name: nameState,
+            email: emailState,
+            phoneNumber: phoneState,
+        }}))
         navigate("/");
     }
 
@@ -66,4 +83,4 @@ function AddPage() {
   )
 }
 
-export default AddPage;
+export default EditPage

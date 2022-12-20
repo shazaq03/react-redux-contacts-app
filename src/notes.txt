@@ -1,0 +1,4 @@
+dispatch(addContact({name: nameState.toString(), email: emailState.toString(), phoneNumber: phoneState}));
+        setemailState("");
+        setnameState("");
+        setphoneState("");

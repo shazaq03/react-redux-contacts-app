@@ -1,4 +1,3 @@
-import MainComponent from "./Components/MainComponent";
 import CurrentPage from "./Components/CurrentPage";
 
 function App() {
